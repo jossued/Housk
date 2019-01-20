@@ -32,6 +32,7 @@ export class UsuarioEntity {
     clave:string;
     @OneToMany(
         publicaciones => PublicacionEntity,
+        // @ts-ignore
         publicacion => publicacion.usuario,
     )
     publicaciones:PublicacionEntity[];

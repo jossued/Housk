@@ -20,7 +20,7 @@ import {ImagenEntity} from "./imagen/imagen.entity";
               type:'sqlite',
               database:'housek_db',
               synchronize:true,
-              dropSchema:true,
+              dropSchema:false,
                 entities:[
                     UsuarioEntity,
                     PublicacionEntity,
