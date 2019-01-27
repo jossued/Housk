@@ -1,12 +1,13 @@
-import {Body, Controller, Get, Param, Post, Query, Res} from "@nestjs/common";
+import {BadRequestException, Body, Controller, Get, HttpCode, Param, Post, Query, Res, Session} from "@nestjs/common";
 import {Usuario, UsuarioService} from "./usuario.service";
 import {UsuarioEntity} from "./usuario.entity";
-import {Like} from "typeorm";
+import {In, Like} from "typeorm";
+import {PublicacionService} from "../publicacion/publicacion.service";
 
 @Controller('Usuario')
 export class UsuarioController {
     constructor(
-        private readonly _usuarioService:UsuarioService
+        private readonly _usuarioService:UsuarioService,
     ){
 
     }
@@ -18,8 +19,6 @@ export class UsuarioController {
         @Query('nombre') nombre: string,
         @Query('busqueda') busqueda: string,
     ) {
-
-
         let mensaje; // undefined
         let clase; // undefined
 
@@ -65,4 +64,22 @@ export class UsuarioController {
             accion: clase
         });
     }
+
+    @Get('intereses')
+    async interes(
+        @Res() response,
+        @Session() session
+    ){
+        const id =  session.usuario;
+        console.log(id);
+
+        const usuario = await this._usuarioService.buscarPorId(id);
+        response.render(
+            'intereses.ejs',{
+                intereses_usuario:usuario
+            }
+        )
+    }
+
+
 }
