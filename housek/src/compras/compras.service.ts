@@ -5,6 +5,7 @@ import {ComprasEntity} from "./compras.entity";
 import {FindManyOptions} from "../../node_modules/typeorm/find-options/FindManyOptions";
 import {PublicacionEntity} from "../publicacion/publicacion.entitty";
 import {UsuarioEntity} from "../usuario/usuario.entity";
+import {options} from "tsconfig-paths/lib/options";
 
 
 @Injectable()

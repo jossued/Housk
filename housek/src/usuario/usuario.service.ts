@@ -19,6 +19,10 @@ export class UsuarioService {
         return this._usuarioRepository.find(parametros);
     }
 
+    buscarPorId(idUsuario: number): Promise<UsuarioEntity> {
+        return this._usuarioRepository.findOne(idUsuario, {relations: ["intereses"]} );
+    }
+
     async crear(nuevoUsuario: Usuario): Promise<UsuarioEntity> {
 
         // Instanciar una entidad -> .create()
@@ -33,32 +37,26 @@ export class UsuarioService {
     }
 
 
-    async login(username: string, password: string)
-        : Promise<boolean> {
+    async login(correo: string, password: string)
+        : Promise<Number> {
         // 1) Buscar al usuario por username
         // 2) Comparar si el password es igual al password
 
         const usuarioEncontrado = await this._usuarioRepository
             .findOne({
                 where: {
-                    username: username
+                    correo: correo
                 }
             });
-
-
-        if (usuarioEncontrado) {
-
-            if (usuarioEncontrado.clave === password) {
-                return true;
-            } else {
-                return false;
+        if(usuarioEncontrado){
+            if(usuarioEncontrado.clave === password){
+                return usuarioEncontrado.id
+            }else {
+                return 0
             }
-
-        } else {
-            return false;
+        }else {
+            return 0
         }
-
-
     }
 
     actualizar(idUsuario: number,

@@ -1,7 +1,7 @@
 import {BadRequestException, Body, Controller, Get, HttpCode, Param, Post, Query, Res, Session} from "@nestjs/common";
 import {Usuario, UsuarioService} from "./usuario.service";
 import {UsuarioEntity} from "./usuario.entity";
-import {Like} from "typeorm";
+import {In, Like} from "typeorm";
 import {PublicacionService} from "../publicacion/publicacion.service";
 
 @Controller('Usuario')
@@ -65,33 +65,21 @@ export class UsuarioController {
         });
     }
 
-    @Post('login')
-    @HttpCode(200)
-    async loginMetodo(
-        @Body('username') username: string,
-        @Body('password') password: string,
+    @Get('intereses')
+    async interes(
         @Res() response,
-        @Session() sesion
-    ) {
-        const identificado = await this._usuarioService
-            .login(username, password);
+        @Session() session
+    ){
+        const id =  session.usuario;
+        console.log(id);
 
-        if (identificado) {
-
-            sesion.usuario = username;
-
-            response.redirect('/')
-
-        } else {
-            throw new BadRequestException({mensaje: 'Error login'})
-        }
-
+        const usuario = await this._usuarioService.buscarPorId(id);
+        response.render(
+            'intereses.ejs',{
+                intereses_usuario:usuario
+            }
+        )
     }
 
-    @Get('login')
-    loginVista(
-        @Res() response
-    ) {
-        response.render('login');
-    }
+
 }

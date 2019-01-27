@@ -1,7 +1,5 @@
-import {Body, Controller, Get, Param, Post, Query, Res} from "@nestjs/common";
+import {Body, Controller, Get, Param, Post, Query, Res, Session} from "@nestjs/common";
 import {PublicacionService} from "./publicacion.service";
-import {PublicacionEntity} from "./publicacion.entitty";
-import {Like} from "typeorm";
 import {ComprasService} from "../compras/compras.service";
 
 @Controller('Publicacion')
@@ -18,15 +16,16 @@ export class PublicacionController {
         return 'Hola estas en la publicacion'
     }
 
+    // Ver las publicaciones del usuario
     @Get('ver')
     async ver(
         @Res() response,
-        @Query('id_usuario') id_usuario:number,
+        @Session() session,
     ){
         const consulta = {
             where:[
                 {
-                    usuario: id_usuario
+                    usuario: session.usuario
                 }
             ]
         };
@@ -38,26 +37,28 @@ export class PublicacionController {
         )
     }
 
-
+    // Ver las compras realizadas por el usuario
     @Get('compras')
     async compras(
         @Res() response,
-        @Query('id_usuario') id_usuario:string
+        @Session() session,
     ){
-        const consulta = {
+        const consulta = {relations: ["publicacion"],
             where:[
                 {
-                    comprador: id_usuario
+                    comprador: session.usuario
                 }
             ]
         };
         // Buscamos las compras que ha hecho el usuario
         const compras = await this._compraService.buscar(consulta);
-
+        console.log(compras);
         response.render(
             'compras.ejs',{
                 compras_usuario:compras
             }
         )
     }
+
+
 }
