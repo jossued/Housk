@@ -1,4 +1,4 @@
-import {Entity} from "typeorm";
+import {Entity, JoinTable, ManyToMany} from "typeorm";
 import {Column ,PrimaryGeneratedColumn} from "typeorm";
 import {ManyToOne,OneToMany} from "typeorm";
 import {UsuarioEntity} from "../usuario/usuario.entity";
@@ -28,7 +28,6 @@ export class PublicacionEntity {
         usuario =>usuario.publicaciones,
     )
     usuario:UsuarioEntity;
-
 
 
 }

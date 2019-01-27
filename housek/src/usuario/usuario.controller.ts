@@ -7,7 +7,7 @@ import {PublicacionService} from "../publicacion/publicacion.service";
 @Controller('Usuario')
 export class UsuarioController {
     constructor(
-        private readonly _usuarioService:UsuarioService
+        private readonly _usuarioService:UsuarioService,
     ){
 
     }

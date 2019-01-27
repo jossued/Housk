@@ -12,6 +12,7 @@ import {LugarGeograficoEntity} from "./lugar_geografico/lugar_geografico.entity"
 import {LugarGeograficoModule} from "./lugar_geografico/lugar_geografico.module";
 import {ImagenModule} from "./imagen/imagen.module";
 import {ImagenEntity} from "./imagen/imagen.entity";
+import {ComprasEntity} from "./compras/compras.entity";
 
 @Module({
   imports: [
@@ -20,13 +21,14 @@ import {ImagenEntity} from "./imagen/imagen.entity";
               type:'sqlite',
               database:'housek_db',
               synchronize:true,
-              dropSchema:false,
+              dropSchema:true,
                 entities:[
                     UsuarioEntity,
                     PublicacionEntity,
                     InmuebleEntity,
                     LugarGeograficoEntity,
                     ImagenEntity,
+                    ComprasEntity
                 ],
           }),
       UsuarioModule,

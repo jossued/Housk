@@ -12,7 +12,7 @@
 <% publicaciones_usuario.forEach((publicacion)=>{ %>
     <h3><%= publicacion.tituloPub %></h3>
             <ul>
-                <li><%= publicacion.costoPub %></li>
+                <li>Precio: $<%= publicacion.costoPub %></li>
                 <li>Publicado: <%= publicacion.fechaPub %></li>
             </ul>
 <% }) %>

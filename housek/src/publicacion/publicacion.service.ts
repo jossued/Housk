@@ -3,8 +3,7 @@ import {Repository} from "typeorm";
 import {InjectRepository} from '@nestjs/typeorm';
 import {PublicacionEntity} from "./publicacion.entitty";
 import {FindManyOptions} from "../../node_modules/typeorm/find-options/FindManyOptions";
-import {Interface} from "readline";
-import {Publicaciones, Usuario} from "../usuario/usuario.service";
+
 import {UsuarioEntity} from "../usuario/usuario.entity";
 
 @Injectable()
@@ -50,4 +49,5 @@ export interface Publicacion{
     estadoPub:boolean;
     fechaPub:string;
     usuario:UsuarioEntity
+    usuario_comprador?:UsuarioEntity
 }

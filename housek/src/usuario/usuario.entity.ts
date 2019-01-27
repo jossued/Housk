@@ -1,6 +1,7 @@
 import {Entity, OneToMany, ManyToMany, JoinTable} from "typeorm";
 import {Column ,PrimaryGeneratedColumn} from "typeorm";
 import {PublicacionEntity} from "../publicacion/publicacion.entitty";
+import {ComprasEntity} from "../compras/compras.entity";
 
 @Entity('usuario')
 export class UsuarioEntity {
@@ -37,7 +38,15 @@ export class UsuarioEntity {
     )
     publicaciones:PublicacionEntity[];
 
+
     @ManyToMany(type => PublicacionEntity)
     @JoinTable()
-    intereses:PublicacionEntity[]
+    intereses:PublicacionEntity[];
+
+    @OneToMany(
+        compras => UsuarioEntity,
+        // @ts-ignore
+        compra =>compra.comprador
+    )
+    compras:ComprasEntity[]
 }

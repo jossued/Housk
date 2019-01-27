@@ -2,9 +2,17 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Compras</title>
 </head>
 <body>
-
+<h1>Tus Compras: </h1>
+<% compras_usuario.forEach((compra)=>{ %>
+    <h3><%= compra.publicacion.tituloPub %></h3>
+    <h4>Fecha Compra: <%= compra.fechaCompra %></h4>
+    <ul>
+        <li>Precio: $<%= compra.publicacion.costoPub %></li>
+        <li>Fecha Publicacion: <%= compra.publicacion.fechaPub %></li>
+    </ul>
+<% }) %>
 </body>
 </html>
