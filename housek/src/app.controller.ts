@@ -2,6 +2,7 @@ import {BadRequestException, Body, Controller, Get, HttpCode, Post, Res, Session
 import { AppService } from './app.service';
 import {UsuarioService} from "./usuario/usuario.service";
 import {PublicacionService} from "./publicacion/publicacion.service";
+import {UsuarioEntity} from "./usuario/usuario.entity";
 
 @Controller()
 export class AppController {
@@ -12,10 +13,20 @@ export class AppController {
 
   @Get()
   async getHello(
-      @Res() response
+      @Res() response,
+      @Session()session
   ){
      const publicaciones = await this._publicacionService.buscar();
-     response.render('home.ejs',{publicaciones:publicaciones})
+
+     console.log(session.usuario);
+     if(session.usuario){
+         const Usuario = await this._usuarioService.buscarPorId(session.usuario);
+         console.log(Usuario);
+         response.render('home.ejs',{publicaciones:publicaciones,nombre:Usuario.nombreUsuario})
+     }else {
+         response.render('home.ejs',{publicaciones:publicaciones,nombre:''})
+     }
+
   }
 
     @Post('login')

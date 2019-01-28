@@ -1,20 +1,40 @@
 <html>
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport"
-          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>HouseK</title>
+    <% include ./partials/head.ejs %>
+
 </head>
 <body>
-<h1>Publicaciones recientes: </h1>
-<% publicaciones.forEach((publicacion)=>{ %>
-    <h3><%= publicacion.tituloPub %></h3>
-    <ul>
-        <li>Precio: $<%= publicacion.costoPub %></li>
-        <li>Publicado: <%= publicacion.fechaPub %></li>
-    </ul>
-<% }) %>
+<% include ./partials/header.ejs %>
+
+
+<div class="row" style="padding-top: 100px;">
+    <div class="col-md-2"></div>
+    <div class="col-md-8" id="contenido">
+        <h1 class="titulo">Ultimas propiedades en venta: </h1>
+    <% publicaciones.forEach((publicacion)=>{ %>
+            <div class="blog-card">
+                <div class="meta">
+                    <div class="photo" style="background-image: url(http://img2.rtve.es/v/4452138?w=1600&preview=1517516839899.jpg)">
+                    </div>
+
+                </div>
+                <div class="description">
+                    <h1 class="titulo"><%= publicacion.tituloPub %></h1>
+                    <p><strong>Precio: </strong>$<%= publicacion.costoPub %></p>
+                    <p class="date"><strong>Publicado: </strong><%= publicacion.fechaPub %></p>
+                    <p class="read-more">
+                        <a href="#"><button class="btn btn-dark">Saber más..</button></a>
+                    </p>
+                </div>
+
+
+            </div>
+        <% }) %>
+    </div>
+    <div class="col-md-2"></div>
+
+</div>
 </body>
 </html>
