@@ -14,6 +14,7 @@ import {
 import {PublicacionService} from "./publicacion.service";
 import {ComprasService} from "../compras/compras.service";
 import {extname} from "path";
+import {storage} from "./helper";
 
 @Controller('Publicacion')
 export class PublicacionController {
@@ -35,6 +36,7 @@ export class PublicacionController {
         @Res() response,
         @Session() session,
     ){
+        console.log(session);
         const consulta = {relations: ["usuario"],
             where:[
                 {
@@ -77,11 +79,8 @@ export class PublicacionController {
     @Post('registrar')
     @UseInterceptors(
         FilesInterceptor('files',6,{
-            dest: 'publico/imagenes',
-            fileFilter: (req, file, cb) => {
-                file.filename = Date.now()+'-'+file.originalname;
-                cb(null, true);
-            },
+            //dest: 'publico/imagenes',
+            storage:storage
         }
         )
 
@@ -89,6 +88,11 @@ export class PublicacionController {
     uploadFile(
         @UploadedFiles() files
     ):string {
+        // registro la publicacion y obtengo su id
+        // registro un inmueble con el id de la publicacion
+        // para cada arreglo de imagenes 'files' extraigo su ruta
+        // registro una imagen con la ruta y el id del  inmueble'
+        // redireciono la pagina de publicacioenes del usuario
         return "Se han subido archivos"
     }
 

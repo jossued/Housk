@@ -2,6 +2,7 @@ import {NestFactory} from '@nestjs/core';
 import {AppModule} from './app.module';
 import * as express from 'express';
 import * as session from 'express-session';
+import {UsuarioEntity} from "./usuario/usuario.entity";
 const FileStore = require('session-file-store')(session);
 
 async function bootstrap() {
@@ -15,7 +16,8 @@ async function bootstrap() {
             resave: false,
             saveUninitialized: true,
             cookie: {secure: false},
-            store: new FileStore()
+            store: new FileStore(),
+            usuario:new UsuarioEntity(),
         })
     );
     await app.listen(3000);

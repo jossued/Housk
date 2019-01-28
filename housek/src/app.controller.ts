@@ -33,6 +33,7 @@ export class AppController {
 
         if (identificado) {
             session.usuario  = await this._usuarioService.buscarPorId(session.usuario);
+            console.log(session);
             response.redirect('/')
 
         } else {
@@ -53,9 +54,9 @@ export class AppController {
         @Res() response,
         @Session() session,
     ){
-        session.usuario = undefined;
+        session.usuario=undefined;
         session.destroy();
-        response.redirect('/login');
+        response.redirect('/');
     }
 
 }
