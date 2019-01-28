@@ -38,7 +38,7 @@ export class UsuarioService {
 
 
     async login(correo: string, password: string)
-        : Promise<Number> {
+        : Promise<number> {
         // 1) Buscar al usuario por username
         // 2) Comparar si el password es igual al password
 

@@ -2,7 +2,6 @@ import {BadRequestException, Body, Controller, Get, HttpCode, Param, Post, Query
 import {Usuario, UsuarioService} from "./usuario.service";
 import {UsuarioEntity} from "./usuario.entity";
 import {In, Like} from "typeorm";
-import {PublicacionService} from "../publicacion/publicacion.service";
 
 @Controller('Usuario')
 export class UsuarioController {
@@ -70,15 +69,14 @@ export class UsuarioController {
         @Res() response,
         @Session() session
     ){
-        const id =  session.usuario;
-        console.log(id);
+        const usuario = session.usuario;
+            response.render(
+                'intereses.ejs',{
+                    intereses_usuario:usuario,nombre:usuario.nombreUsuario
+                }
+            )
 
-        const usuario = await this._usuarioService.buscarPorId(id);
-        response.render(
-            'intereses.ejs',{
-                intereses_usuario:usuario
-            }
-        )
+
     }
 
 
