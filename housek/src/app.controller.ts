@@ -49,6 +49,13 @@ export class AppController {
         response.render('login',{nombre:''});
     }
 
+    @Get('crear_usuario')
+    registroVista(
+        @Res() response
+    ) {
+        response.render('registrarUsuario',{nombre:''});
+    }
+
     @Get('logout')
     logout(
         @Res() response,
