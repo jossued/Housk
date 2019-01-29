@@ -11,16 +11,24 @@ import {
     Session, UploadedFiles,
     UseInterceptors
 } from "@nestjs/common";
-import {PublicacionService} from "./publicacion.service";
+import {Publicacion, PublicacionService} from "./publicacion.service";
 import {ComprasService} from "../compras/compras.service";
 import {extname} from "path";
 import {storage} from "./helper";
+import {Inmueble, InmuebleService} from "../inmueble/inmueble.service";
+import {PublicacionEntity} from "./publicacion.entitty";
+import {ImagenEntity} from "../imagen/imagen.entity";
+import {LugarGeograficoService} from "../lugar_geografico/lugar_geografico.service";
+import {Imagen, ImagenService} from "../imagen/imagen.service";
 
 @Controller('Publicacion')
 export class PublicacionController {
     constructor(
         private readonly _publicacionService: PublicacionService,
         private readonly _compraService:ComprasService,
+        private readonly _lugar_geoSerice:LugarGeograficoService,
+        private readonly _imagenService:ImagenService,
+        private readonly _inmuebleService:InmuebleService,
     ){
 
     }
@@ -85,15 +93,66 @@ export class PublicacionController {
         )
 
     )
-    uploadFile(
-        @UploadedFiles() files
-    ):string {
+    async uploadFile(
+        @UploadedFiles() files,
+        @Body('titulo')titulo:string,
+        @Body('costo')costo:number,
+        @Body('sector')sector:string,
+        @Body('calleP')calleP:string,
+        @Body('calleS')calleS:string,
+        @Body('idM')idM:string,
+        @Body('areaE')areaE:number,
+        @Body('areaC')areaC:number,
+        @Body('npisos')npisos:number,
+        @Body('ndor')ndor:number,
+        @Body('nbat')nbat:number,
+        @Body('nPar')nPar:number,
+        @Body('ant')ant:number,
+        @Body('ciudades')ciudad:Number,
+        @Session() session,
+        @Res() response,
+
+    ) {
+
         // registro la publicacion y obtengo su id
+
+        const publicacion:Publicacion = {
+            tipoPub:"",
+            tituloPub:titulo,
+            costoPub:costo,
+            estadoPub:true,
+            fechaPub:Date(),
+            usuario:session.usuario
+        };
+        const publicacion_nueva = await this._publicacionService.crear(publicacion);
         // registro un inmueble con el id de la publicacion
-        // para cada arreglo de imagenes 'files' extraigo su ruta
-        // registro una imagen con la ruta y el id del  inmueble'
+        const inmueble:Inmueble = {
+            sectorEdif:sector,
+            callePrincipalEdif:calleP,
+            calleSecundariaEdif:calleS,
+            idMunicipalEdif:idM,
+            areaTerrenoEdif:areaE,
+            areaTerrenoConstEdif:areaC,
+            numPisosEdif:npisos,
+            numDormitorioEdif:ndor,
+            numBatSaniEdif:nbat,
+            numParqueaderoEdif:nPar,
+            antiguead:ant,
+            publicacion:publicacion_nueva,
+            lugar_geografico:await this._lugar_geoSerice.buscarPorId(+ciudad),
+        };
+        const inmueble_nuevo = await this._inmuebleService.crear(inmueble);
+        files.forEach(
+                async (file)=>{
+                    // para cada arreglo de imagenes 'files' extraigo su ruta
+                    const imagen:Imagen={ rutaImg:file.path,inmueble:inmueble_nuevo };
+                    // registro una imagen con la ruta y el id del  inmueble'
+                    const imagen_nueva = await this._imagenService.crear(imagen);
+                }
+            );
         // redireciono la pagina de publicacioenes del usuario
-        return "Se han subido archivos"
+
+        return response.redirect('/Publicacion/ver')
     }
 
     @Get('registrar')
@@ -101,7 +160,7 @@ export class PublicacionController {
         @Res() response,
         @Session() session,
     ){
-        return response.render('crear_publicacion.ejs',{session:session})
+        return response.render('crear_publicacion.ejs',{nombre:session})
     }
 
 

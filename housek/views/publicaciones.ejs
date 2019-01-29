@@ -5,13 +5,21 @@
     <% include ./partials/head.ejs %>
 </head>
 <body>
-<h1>Tus publicaciones: </h1>
-<% publicaciones_usuario.forEach((publicacion)=>{ %>
-    <h3><%= publicacion.tituloPub %></h3>
+<% include ./partials/header.ejs %>
+
+<div class="row" style="padding-top: 100px">
+    <div class="col-md-2"></div>
+    <div class="col-md-8">
+        <h1 class="titulo">Tus publicaciones: </h1>
+        <% publicaciones_usuario.forEach((publicacion)=>{ %>
+            <h3><%= publicacion.tituloPub %></h3>
             <ul>
                 <li>Precio: $<%= publicacion.costoPub %></li>
                 <li>Publicado: <%= publicacion.fechaPub %></li>
             </ul>
-<% }) %>
+        <% }) %>
+    </div>
+    <div class="col-md-2"></div>
+</div>
 </body>
 </html>

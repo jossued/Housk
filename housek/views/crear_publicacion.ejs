@@ -1,21 +1,110 @@
 <html>
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport"
-          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Crear Pubicacion</title>
+    <% include ./partials/head.ejs %>
+
 </head>
 <body>
-<h1> Crea una publicacion </h1>
-<form action="/Publicacion/registrar" method="post" enctype="multipart/form-data">
-    <div>
-        <label for="files">Selecciona las fotos de tu propiedad:</label>
-        <input id="files" type="file" name="files" multiple/>
-    </div>
-    <button>Registar</button>
-</form>
+<% include ./partials/header.ejs %>
 
+<div class="row" style="padding-top: 75px;">
+<div class="col-md-4"></div>
+    <div class="col-md-4 border" style="background-color: white;">
+        <h1 class="titulo"> Vender </h1>
+        <form action="/Publicacion/registrar" method="post" enctype="multipart/form-data">
+    <div  class="form-group">
+        <label for="titulo">Titulo de la Publicacion</label>
+        <input class="form-control" id="titulo" type="text" name="titulo" required/>
+        <label for="costo">Precio de la propiedad</label>
+        <input class="form-control"  id="costo" type="number" name="costo" required/>
+        <label for="files">Selecciona las fotos de tu propiedad:</label>
+        <input  class="form-control-file" id="files" type="file" name="files" multiple required/>
+        <label for="sector">Sector de la propiedad:</label>
+        <input class="form-control" id="sector" type="text" name="sector" required/>
+        <label for="calleP">Calle Principal:</label>
+        <input class="form-control" id="calleP" type="text" name="calleP" required/>
+        <label for="calleS">Calle Secundaria:</label>
+        <input class="form-control" id="calleS" type="text" name="calleS" required/>
+        <label for="idM">Identificador Municipal de la propiedad:</label>
+        <input class="form-control" id="idM" type="text" name="idM" required/>
+        <label for="areaE">Area del terreno de la propiedad:</label>
+        <input class="form-control" id="areaE" type="number" name="areaE" required/>
+        <label for="areaC">Area del terreno de construccion:</label>
+        <input  class="form-control" id="areaC" type="number" name="areaC" required/>
+        <label for="npisos">Numero de pisos:</label>
+        <input class="form-control" id="npisos" type="number" name="npisos" required/>
+        <label for="ndor">Numero de dormitorios:</label>
+        <input class="form-control" id="ndor" type="number" name="ndor" required/>
+        <label for="nbat">Numero de baterias sanitarias:</label>
+        <input class="form-control" id="nbat" type="number" name="nbat" required/>
+        <label for="nPar">Numero de parqueaderos:</label>
+        <input class="form-control" id="nPar" type="number" name="nPar" required/>
+        <label for="ant">Antiguedad en años de la propiedad:</label>
+        <input class="form-control" id="ant" type="number" name="ant" required/>
+
+        <label for="provincia">Ubicacion Geografica:</label>
+        <select required class="form-control" name="provincia" id="provincia">
+            <option value="1" name="a">Pichincha</option>
+            <option value="2">Guayas</option>
+            <option value="3">Esmeraldas</option>
+        </select>
+        <select required class="form-control" name="ciudades" id="ciudades" disabled style="margin-top: 20px" >
+
+        </select>
+
+    </div>
+    <button class="btn btn-dark">Registar</button>
+</form>
+    </div>
+    <div class="col-md-4"></div>
+</div>
+
+<script src="/js/jquery.min.js">
+</script>
+<script src="/js/popper.js">
+</script>
+<script>
+    let etiquerasSelecProvincias = document.getElementById('provincia')
+    let etiquetaSelectCiudades = document.getElementById('ciudades')
+    etiquerasSelecProvincias.onchange = (evento) => {
+        console.log("cambio")
+        const valorActualProvincia = etiquerasSelecProvincias.value;
+        etiquetaSelectCiudades.disabled = false;
+
+
+        const url = 'http://localhost:3000/LugarGeo/obtener';
+        $.get(
+            url + '?id_padre=' + valorActualProvincia, // URL
+            (datos) => {  // Callback
+                console.log(datos)
+                const arregloCiudades = datos;
+                matarHijos();
+                llenarCiudades(arregloCiudades);
+            }
+        )
+
+
+    }
+
+    function llenarCiudades(arregloCiudades) {
+        arregloCiudades
+            .forEach(
+                (ciudad) => {
+                    const nuevaOption = document.createElement('option');
+                    nuevaOption.value = ciudad.idLugar;
+                    nuevaOption.innerText = ciudad.nombreLugar;
+                    nuevaOption.localName = 'ciudad'
+                    etiquetaSelectCiudades.appendChild(nuevaOption);
+                }
+            )
+    }
+
+    function matarHijos() { //AKA eliminarLasOpciones
+        while (etiquetaSelectCiudades.firstChild) {
+            etiquetaSelectCiudades.removeChild(etiquetaSelectCiudades.firstChild);
+        }
+    }
+</script>
 </body>
 </html>
