@@ -42,12 +42,11 @@ export class PublicacionService {
 }
 
 export interface Publicacion{
-    idPub:number;
+    idPub?:number;
     tipoPub:string;
     tituloPub:string;
     costoPub:number;
     estadoPub:boolean;
     fechaPub:string;
     usuario:UsuarioEntity
-    usuario_comprador?:UsuarioEntity
 }

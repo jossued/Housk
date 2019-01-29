@@ -11,6 +11,12 @@
             <button class="btn btn-danger my-2 my-sm-0" type="submit">Buscar</button>
         </form>
         <ul   class="navbar-nav ml-auto">
+            <% if (nombre.usuario){ %>
+                <a class="nav-link" href="/Publicacion/registrar"  role="button"
+                   aria-haspopup="true" aria-expanded="false">
+                    Publicar
+                </a>
+            <%}%>
 
             <li class="nav-item dropdown">
                 <% if (nombre.usuario){ %>
