@@ -17,16 +17,7 @@ export class AppController {
       @Session()session
   ){
      const publicaciones = await this._publicacionService.buscar();
-
-     console.log(session.usuario);
-     if(session.usuario){
-         const Usuario = await this._usuarioService.buscarPorId(session.usuario);
-         console.log(Usuario);
-         response.render('home.ejs',{publicaciones:publicaciones,nombre:Usuario.nombreUsuario})
-     }else {
-         response.render('home.ejs',{publicaciones:publicaciones,nombre:''})
-     }
-
+     response.render('home.ejs',{publicaciones:publicaciones,nombre:session})
   }
 
     @Post('login')
@@ -41,8 +32,8 @@ export class AppController {
             .login(email, password);
 
         if (identificado) {
-
-            session.usuario = identificado;
+            session.usuario  = await this._usuarioService.buscarPorId(session.usuario);
+            console.log(session);
             response.redirect('/')
 
         } else {
@@ -57,14 +48,15 @@ export class AppController {
     ) {
         response.render('login');
     }
+
     @Get('logout')
     logout(
         @Res() response,
         @Session() session,
     ){
-        session.usuario = undefined;
+        session.usuario=undefined;
         session.destroy();
-        response.redirect('/login');
+        response.redirect('/');
     }
 
 }
