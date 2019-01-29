@@ -46,7 +46,7 @@ export class AppController {
     loginVista(
         @Res() response
     ) {
-        response.render('login');
+        response.render('login',{nombre:''});
     }
 
     @Get('logout')
