@@ -42,14 +42,18 @@ export class UsuarioService {
         // 1) Buscar al usuario por username
         // 2) Comparar si el password es igual al password
 
+        console.log('correo enviado ', correo)
         const usuarioEncontrado = await this._usuarioRepository
             .findOne({
                 where: {
-                    correo: correo
+                    correoUsuario: correo
                 }
             });
+        console.log('correo encontrado ',usuarioEncontrado.correoUsuario)
         if(usuarioEncontrado){
             if(usuarioEncontrado.clave === password){
+                console.log("clave")
+                console.log('id',usuarioEncontrado.id)
                 return usuarioEncontrado.id
             }else {
                 return 0
@@ -73,18 +77,9 @@ export class UsuarioService {
 }
 
 export interface Usuario {
-    id: number;
+    id?: number;
     nombreUsuario: string;
     apellidoUsuario: string;
     correoUsuario?: string;
     clave?: string;
-}
-
-export interface Publicaciones {
-    idPub: number;
-    tipoPub: string;
-    tituloPub: string;
-    costoPub?: number;
-    estadoPub?: boolean;
-    fechaPub?: string;
 }
