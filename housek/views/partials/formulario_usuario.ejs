@@ -1,48 +1,57 @@
-<html>
-
-<head>
-    <title>Crear Usuario</title>
-    <% include ./head.ejs %>
-
-</head>
-<body>
-<% include ./header.ejs %>
-div
+<div class="container vertical">
 <div class="row" style="padding-top: 75px;">
+
+    <div class="col-md-4"></div>
     <div class="col-sm-6">
         <div>
             <% var creando = typeof usuario === "undefined" ? true : false; %>
 
             <h1> <%= creando ? 'Crear' : 'Actualizar' %> Usuario</h1>
-            <p><%= creando ? 'Creando' : 'Actualizando' %> un usuario.</p>
-            <form action="/Usuario/<%= creando ? 'crear' : 'actualizar' %>-usuario/<%= creando ? '' : usuario.id %>"
+            <form action="/<%= creando ? 'crear' : 'actualizar' %>_usuario<%= creando ? '' : '/'+usuario.id %>"
                   method="POST">
-                <div>
+                <div class="form-group">
                     <label for="nombre">Nombre</label>
-                    <input id="nombre"
-                           value="<%= creando ? '' : usuario.nombre %>"
-                           name="nombre" type="text">
+                    <input class="form-control"
+                            id="nombre"
+                           value="<%= creando ? '' : usuario.nombreUsuario %>"
+                           name="nombreUsuario" type="text">
                 </div>
 
-                <div>
-                    <label for="biografia">Biografía</label>
-                    <textarea name="biografia"
-                              id="biografia"
-                              cols="30"
-                              rows="3"><%= creando ? '' : usuario.biografia %>
-                    </textarea>
+                <div class="form-group">
+                    <label for="apellido">Apellido</label>
+                    <input class="form-control"
+                            name="apellidoUsuario"
+                              id="apellido"
+                             ><%= creando ? '' : usuario.apellidoUsuario %>
+                    </input>
                 </div>
-                <button type="reset">Resetear formulario</button>
-                <button onclick="validarNombre(event)"><%= creando ? 'Crear' : 'Actualizar' %> Usuario</button>
+                <div class="form-group">
+                    <label for="correo">Correo</label>
+                    <input class="form-control"
+                            type="email" name="correoUsuario"
+                              id="correo"
+                             ><%= creando ? '' : usuario.correo %>
+                    </input>
+                </div>
+                <div class="form-group">
+                    <label for="password">Contraseña</label>
+                    <input class="form-control"
+                            type="password"
+                            name="clave"
+                              id="password"
+                             ><%= creando ? '' : usuario.apellidoUsuario %>
+                    </input>
+                </div>
+                <button class="btn btn-dark" type="reset">Resetear formulario</button>
+                <button class="btn btn-success" onclick="validarNombre(event)"><%= creando ? 'Crear' : 'Actualizar' %> Usuario</button>
             </form>
 
-            <a href="/Usuario/inicio">
-                <button>Regresar</button>
+            <a href="/">
+                <button class="btn btn-light">Regresar</button>
             </a>
 
 
             <script>
-                /*
                 function validarNombre(evento) {
                     // 0) Obtener el valor del campo
                     // 1) Revisar el campo no este vacio
@@ -58,7 +67,6 @@ div
                     }
 
                 }
-                */
             </script>
 
 
@@ -66,8 +74,4 @@ div
     </div>
 
 </div>
-
-<% include ./librerias.ejs %>
-
-</body>
-</html>
+</div>
