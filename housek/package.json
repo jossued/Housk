@@ -23,6 +23,7 @@
     "@nestjs/common": "^5.4.0",
     "@nestjs/core": "^5.4.0",
     "@nestjs/typeorm": "^5.2.2",
+    "class-validator": "^0.9.1",
     "ejs": "^2.6.1",
     "express": "^4.16.4",
     "express-session": "^1.15.6",

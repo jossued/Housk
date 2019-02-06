@@ -79,5 +79,39 @@ export class UsuarioController {
 
     }
 
+    @Get('actualizar-usuario/:idUsuario')
+    async actualizarUsuario(
+        @Param('idUsuario') idUsuario: string,
+        @Res() response
+    ) {
+        const usuarioAActualizar = await this
+            ._usuarioService
+            .buscarPorId(Number(idUsuario));
+
+        response.render(
+            'crear-usuario', {
+                usuario: usuarioAActualizar
+            }
+        )
+    }
+
+
+    @Post('actualizar-usuario/:idUsuario')
+    async actualizarUsuarioFormulario(
+        @Param('idUsuario') idUsuario: string,
+        @Res() response,
+        @Body() usuario: Usuario
+    ) {
+        usuario.id = +idUsuario;
+
+        await this._usuarioService.actualizar(+idUsuario, usuario);
+
+        const parametrosConsulta = `?accion=actualizar&nombre=${usuario.nombreUsuario}`;
+
+        response.redirect('/Usuario/inicio' + parametrosConsulta);
+
+    }
+
+
 
 }
